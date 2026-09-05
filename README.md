@@ -1,86 +1,114 @@
 # Exp_2_Simple-Spring-Boot-MVC-Application
 
-## AIM:
-To develop a Simple Spring Boot MVC (Model-View-Controller) Application that uses a Controller to handle HTTP requests, a Model to pass data, and a View (Thymeleaf) to render dynamic HTML pages.
+## AIM
 
-## ALGORITHM:
-Create a New Spring Boot Project:
+To develop a simple **Spring Boot MVC (Model-View-Controller) Application** that uses a **Controller** to handle HTTP requests, a **Model** to pass data, and a **View (Thymeleaf)** to render dynamic HTML pages.
 
-Use Spring Initializr
+---
 
-Add dependencies:
+## ALGORITHM
 
-Spring Web
+### Step 1: Create a New Spring Boot Project
 
-Thymeleaf
+Create a project using **Spring Initializr**.
 
-Set Up Project Structure:
+### Step 2: Add Dependencies
 
-Create the main class annotated with @SpringBootApplication
+Add the following dependencies:
 
-Create a Controller class using @Controller
+* Spring Web
+* Thymeleaf
 
-Add HTML templates under src/main/resources/templates
+### Step 3: Set Up Project Structure
 
-Create a Controller:
+* Create the main class and annotate it with `@SpringBootApplication`.
+* Create a Controller class using `@Controller`.
+* Add HTML templates under `src/main/resources/templates`.
 
-Define a method to handle HTTP GET requests using @GetMapping
+### Step 4: Create a Controller
 
-Return a view name (HTML page name) from the controller
+* Define a method to handle HTTP GET requests using `@GetMapping`.
+* Return the view name (HTML page name) from the Controller.
+* Pass data to the View using the `Model` object.
 
-Pass data to the view using Model object
+### Step 5: Create a Model
 
-Create a Model (Optional):
+A separate POJO Model class is optional. For this application, the `Model` object provided by Spring MVC is used to pass data from the Controller to the View.
 
-Define a simple POJO class if you need to pass structured data to the view
+### Step 6: Create View Pages Using Thymeleaf
 
-Create View Pages (HTML using Thymeleaf):
+* Create an HTML file inside the `templates` folder.
+* Use Thymeleaf syntax such as `${message}` to display dynamic content.
 
-Create an HTML file inside the templates folder
+### Step 7: Run the Application
 
-Use Thymeleaf syntax (e.g., ${name}) to render dynamic content
+Run the Spring Boot application from the IDE or using the command line.
 
-Run the Application:
+### Step 8: Access the Application
 
-Run the Spring Boot application from your IDE or command line
+Open a web browser and navigate to:
 
-Access the Application:
+```text
+http://localhost:8080/
+```
 
-Open a browser and navigate to http://localhost:8080/
-## PROGRAM
+---
+
+# PROGRAM
+
+## Project Structure
+
+```text
 spring-mvc-demo/
 ├── src/
 │   └── main/
 │       ├── java/
-│       │   └── com.example.mvc/
-│       │       ├── MvcApplication.java
-│       │       └── HomeController.java
+│       │   └── com/
+│       │       └── example/
+│       │           └── mvc/
+│       │               ├── MvcApplication.java
+│       │               └── HomeController.java
+│       │
 │       └── resources/
 │           ├── templates/
 │           │   └── index.html
 │           └── application.properties
-├── pom.xml
+│
+└── pom.xml
+```
 
-### pom.xml :
+---
 
+## pom.xml
+
+```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <groupId>com.example</groupId>
-    <artifactId>spring-mvc-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Spring MVC Demo</name>
+    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.1.2</version>
+        <relativePath/>
     </parent>
 
+    <groupId>com.example</groupId>
+    <artifactId>spring-mvc-demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>Spring MVC Demo</name>
+    <description>Simple Spring Boot MVC Application</description>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
     <dependencies>
+
         <!-- Spring Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -92,11 +120,19 @@ spring-mvc-demo/
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
     </dependencies>
+
 </project>
+```
 
-### MvcApplication.java (Main Class):
+---
 
+## MvcApplication.java
+
+**Main Class**
+
+```java
 package com.example.mvc;
 
 import org.springframework.boot.SpringApplication;
@@ -104,13 +140,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class MvcApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(MvcApplication.class, args);
     }
 }
+```
 
-### HomeController.java (Controller):
+---
 
+## HomeController.java
+
+**Controller**
+
+```java
 package com.example.mvc;
 
 import org.springframework.stereotype.Controller;
@@ -122,23 +165,53 @@ public class HomeController {
 
     @GetMapping("/")
     public String homePage(Model model) {
-        model.addAttribute("message", "Welcome to Spring Boot MVC!");
-        return "index";  // refers to index.html in templates folder
+
+        model.addAttribute(
+            "message",
+            "Welcome to Spring Boot MVC!"
+        );
+
+        return "index";
     }
 }
-### index.html (View – inside src/main/resources/templates/):
+```
 
+The `return "index"` statement refers to:
+
+```text
+src/main/resources/templates/index.html
+```
+
+---
+
+## index.html
+
+**View – inside `src/main/resources/templates/`**
+
+```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Spring MVC</title>
 </head>
+
 <body>
-    <h1 th:text="${message}">Default Message</h1>
+
+    <h1 th:text="${message}">
+        Default Message
+    </h1>
+
 </body>
+
 </html>
+```
 
-### application.properties:
- server.port=8081
+# OUTPUT
+
+<img width="745" height="257" alt="image" src="https://github.com/user-attachments/assets/a4989238-ad0f-4a87-9ff6-7f28e2b3ad4c" />
 
 
+# RESULT
+
+Thus, the **Simple Spring Boot MVC Application** was successfully developed using **Spring Web, Controller, Model, and Thymeleaf View**, and the dynamic message was successfully displayed in the web browser.
